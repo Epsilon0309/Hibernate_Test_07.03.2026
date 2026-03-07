@@ -64,6 +64,7 @@ public class App
 				} catch (CheckingException e) {
 					System.out.println(e);;
 				}
+				break;
                 case 0:
                     System.out.println("Exiting... Goodbye!");
                     break;

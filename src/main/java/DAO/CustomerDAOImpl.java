@@ -164,23 +164,29 @@ public class CustomerDAOImpl implements CustomerDAO {
 		EntityTransaction et = em.getTransaction();
 		et.begin();
 
+		String delete = "DELETE FROM CustomerInformation c WHERE c.password = ?1";
+		
 		System.out.println("Enter the password to delete: ");
 		String password = sc.next();
 
-		if (isValidPassword(password)) {
 
-			CustomerInformation customer = em.find(CustomerInformation.class, password);
+			if (isValidPassword(password)) {
 
-			if (customer != null) {
-				em.remove(customer);
+				Query query = em.createQuery(delete);
+				query.setParameter(1, password);
+
+				int result = query.executeUpdate();
+
+				if (result > 0) {
+					System.out.println("Customer deleted successfully...");
+				} else {
+					System.out.println("No customer found with this password...");
+				}
+
 			} else {
-				System.out.println("No customer found.....");
+				throw new CheckingException(
+						"Password must contain one uppercase, one lowercase, one digit, one special character and length >= 4");
 			}
-
-		} else {
-			throw new CheckingException(
-					"Password must contain one uppercae,one lowercae, one digit, one special character and must be of length 4......");
-		}
 
 	}
 
