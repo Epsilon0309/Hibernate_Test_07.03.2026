@@ -100,6 +100,8 @@ public class CustomerDAOImpl implements CustomerDAO {
 		EntityTransaction et = em.getTransaction();
 		et.begin();
 
+		em.clear();
+		
 		String view = "Select customer from CustomerInformation customer";
 
 		Query query = em.createQuery(view);
@@ -187,6 +189,8 @@ public class CustomerDAOImpl implements CustomerDAO {
 				throw new CheckingException(
 						"Password must contain one uppercase, one lowercase, one digit, one special character and length >= 4");
 			}
+		
+		et.commit();
 
 	}
 
